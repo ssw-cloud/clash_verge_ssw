@@ -1,6 +1,6 @@
 {
   "name": "clash-verge",
-  "version": "2.4.7",
+  "version": "2.4.8",
   "license": "GPL-3.0-only",
   "scripts": {
     "prepare": "husky || true",
@@ -15,8 +15,6 @@
     "web:build": "tsc --noEmit && vite build",
     "web:serve": "vite preview",
     "prebuild": "node scripts/prebuild.mjs",
-    "updater": "node scripts/updater.mjs",
-    "updater-fixed-webview2": "node scripts/updater-fixed-webview2.mjs",
     "portable": "node scripts/portable.mjs",
     "portable-fixed-webview2": "node scripts/portable-fixed-webview2.mjs",
     "fix-alpha-version": "node scripts/fix-alpha_version.mjs",
@@ -53,7 +51,6 @@
     "@tauri-apps/plugin-http": "~2.5.7",
     "@tauri-apps/plugin-process": "^2.3.1",
     "@tauri-apps/plugin-shell": "2.3.5",
-    "@tauri-apps/plugin-updater": "2.10.0",
     "ahooks": "^3.9.6",
     "axios": "^1.13.6",
     "cidr-block": "^2.3.0",
