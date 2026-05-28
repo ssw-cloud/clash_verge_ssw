@@ -6,7 +6,7 @@ import {
   ExtensionOutlined,
 } from '@mui/icons-material'
 import { Typography, Stack, Divider, Chip, IconButton } from '@mui/material'
-import { useCallback, useEffect, useMemo, useReducer } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -18,24 +18,6 @@ import { version as appVersion } from '@root/package.json'
 
 import { EnhancedCard } from './enhanced-card'
 
-interface SystemState {
-  osInfo: string
-}
-
-type SystemStateAction = { type: 'set-os-info'; payload: string }
-
-const systemStateReducer = (
-  state: SystemState,
-  action: SystemStateAction,
-): SystemState => {
-  switch (action.type) {
-    case 'set-os-info':
-      return { ...state, osInfo: action.payload }
-    default:
-      return state
-  }
-}
-
 export const SystemInfoCard = () => {
   const { t } = useTranslation()
   const { verge, patchVerge } = useVerge()
@@ -43,10 +25,7 @@ export const SystemInfoCard = () => {
   const { isAdminMode, isSidecarMode } = useSystemState()
   const { installServiceAndRestartCore } = useServiceInstaller()
 
-  // 系统信息状态
-  const [systemState, dispatchSystemState] = useReducer(systemStateReducer, {
-    osInfo: '',
-  })
+  const [osInfo, setOsInfo] = useState('')
 
   // 初始化系统信息
   useEffect(() => {
@@ -64,10 +43,7 @@ export const SystemInfoCard = () => {
             sysVersion = sysVersion.substring(sysName.length).trim()
           }
 
-          dispatchSystemState({
-            type: 'set-os-info',
-            payload: `${sysName} ${sysVersion}`,
-          })
+          setOsInfo(`${sysName} ${sysVersion}`)
         }
       })
       .catch(console.error)
@@ -194,24 +170,23 @@ export const SystemInfoCard = () => {
       }
     >
       <Stack spacing={1.5}>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
           <Typography variant="body2" color="text.secondary">
             {t('home.components.systemInfo.fields.osInfo')}
           </Typography>
-          <Typography variant="body2" fontWeight="medium">
-            {systemState.osInfo}
+          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+            {osInfo}
           </Typography>
         </Stack>
         <Divider />
         <Stack
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
+          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
           <Typography variant="body2" color="text.secondary">
             {t('home.components.systemInfo.fields.autoLaunch')}
           </Typography>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <Chip
               size="small"
               label={
@@ -229,28 +204,25 @@ export const SystemInfoCard = () => {
         <Divider />
         <Stack
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
+          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
           <Typography variant="body2" color="text.secondary">
             {t('home.components.systemInfo.fields.runningMode')}
           </Typography>
           <Typography
             variant="body2"
-            fontWeight="medium"
             onClick={handleRunningModeClick}
-            sx={runningModeStyle}
+            sx={{ ...runningModeStyle, fontWeight: 'medium' }}
           >
             {getModeIcon()}
             {getModeText()}
           </Typography>
         </Stack>
-        <Divider />
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
           <Typography variant="body2" color="text.secondary">
             {t('home.components.systemInfo.fields.vergeVersion')}
           </Typography>
-          <Typography variant="body2" fontWeight="medium">
+          <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
             v{appVersion}
           </Typography>
         </Stack>

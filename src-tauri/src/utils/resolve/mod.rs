@@ -6,6 +6,7 @@ use crate::{
     config::Config,
     core::{
         CoreManager, Timer,
+        handle::Handle,
         hotkey::Hotkey,
         logger::Logger,
         service::{SERVICE_MANAGER, ServiceManager, is_service_ipc_path_exists},
@@ -22,7 +23,6 @@ use clash_verge_signal;
 
 pub mod dns;
 pub mod scheme;
-pub mod ui;
 pub mod window;
 pub mod window_script;
 
@@ -62,19 +62,18 @@ pub fn resolve_setup_async() {
             init_system_proxy_guard().await;
         });
 
-        let tray_init = async {
-            init_tray().await;
-            refresh_tray_menu().await;
-        };
-
         let _ = futures::join!(
             core_init,
-            tray_init,
+            init_tray(),
             init_timer(),
             init_hotkey(),
             init_auto_lightweight_boot(),
             init_auto_backup(),
         );
+
+        Handle::refresh_clash();
+        refresh_tray_menu().await;
+        resolve_done();
     });
 }
 
@@ -152,9 +151,11 @@ pub(super) async fn init_service_manager() {
     if !is_service_ipc_path_exists() {
         return;
     }
-    if SERVICE_MANAGER.lock().await.init().await.is_ok() {
-        logging_error!(Type::Setup, SERVICE_MANAGER.lock().await.refresh().await);
+    let mut manager = SERVICE_MANAGER.lock().await;
+    if manager.init().await.is_ok() {
+        logging_error!(Type::Setup, manager.refresh().await);
     }
+    drop(manager);
 }
 
 pub(super) async fn init_core_manager() {
@@ -189,8 +190,4 @@ pub fn resolve_done() {
 
 pub fn is_resolve_done() -> bool {
     RESOLVE_DONE.load(Ordering::Acquire)
-}
-
-pub fn reset_resolve_done() {
-    RESOLVE_DONE.store(false, Ordering::Release);
 }
