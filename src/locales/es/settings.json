@@ -1,9 +1,7 @@
 {
   "page": {
     "actions": {
-      "manual": "Manual de uso",
-      "telegram": "Canal de Telegram",
-      "github": "Dirección del proyecto en GitHub"
+      "manual": "Manual de uso"
     },
     "title": "Ajustes"
   },
@@ -429,7 +427,6 @@
         "update": "Actualizar"
       },
       "messages": {
-        "portableError": "La versión portátil no admite la actualización desde dentro de la aplicación. Descargue e instale manualmente la actualización.",
         "breakChangeError": "Esta es una actualización importante y no se admite la actualización desde dentro de la aplicación. Desinstale e instale manualmente la nueva versión."
       }
     },
@@ -490,7 +487,7 @@
     "dns": {
       "dialog": {
         "title": "Sobrescritura de DNS",
-        "warning": "Si no está seguro de cómo configurar esto, no realice cambios y mantenga habilitada la sobrescritura de DNS."
+        "warning": "Si no está seguro de cómo configurar esto, no realice cambios y mantenga deshabilitada la sobrescritura de DNS."
       },
       "sections": {
         "general": "Configuración de DNS",
@@ -502,6 +499,7 @@
         "listen": "Dirección de escucha de DNS",
         "enhancedMode": "Modo mejorado",
         "fakeIpRange": "Rango de Fake IP",
+        "fakeIpRange6": "Rango de Fake IP (IPv6)",
         "fakeIpFilterMode": "Modo de filtrado de Fake IP",
         "ipv6": {
           "label": "IPv6",
@@ -608,11 +606,6 @@
         "reactivateProfiles": "Reactivar suscripciones"
       }
     },
-    "password": {
-      "prompts": {
-        "enterRoot": "Ingrese su contraseña de root"
-      }
-    },
     "networkInterface": {
       "title": "Interfaz de red",
       "fields": {
@@ -634,10 +627,6 @@
       "clashService": {
         "installSuccess": "Servicio instalado con éxito",
         "uninstallSuccess": "Servicio desinstalado con éxito"
-      },
-      "updater": {
-        "withClashProxySuccess": "Actualización con el proxy de Clash exitosa",
-        "withClashProxyFailed": "Error al actualizar incluso con el proxy de Clash"
       }
     }
   },

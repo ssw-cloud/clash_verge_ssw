@@ -1,9 +1,7 @@
 {
   "page": {
     "actions": {
-      "manual": "راهنما",
-      "telegram": "کانال تلگرام",
-      "github": "مخزن GitHub"
+      "manual": "راهنما"
     },
     "title": "تنظیمات"
   },
@@ -429,7 +427,6 @@
         "update": "به‌روزرسانی"
       },
       "messages": {
-        "portableError": "نسخه پرتابل از به‌روزرسانی درون برنامه‌ای پشتیبانی نمی‌کند. لطفاً به صورت دستی دانلود و جایگزین کنید",
         "breakChangeError": "این نسخه یک به‌روزرسانی اساسی است و پشتیبانی از به‌روزرسانی درون برنامه را پشتیبانی نمی‌کند. لطفاً پس از حذف، دستی دانلود و نصب کنید."
       }
     },
@@ -490,7 +487,7 @@
     "dns": {
       "dialog": {
         "title": "بازنویسی DNS",
-        "warning": "اگر با این تنظیمات آشنا نیستید، لطفاً آنها را تغییر ندهید و DNS Overwrite را فعال نگه دارید."
+        "warning": "اگر با این تنظیمات آشنا نیستید، لطفاً آنها را تغییر ندهید و DNS Overwrite را غیرفعال نگه دارید."
       },
       "sections": {
         "general": "تنظیمات DNS",
@@ -502,6 +499,7 @@
         "listen": "DNS Listen",
         "enhancedMode": "Enhanced Mode",
         "fakeIpRange": "Fake IP Range",
+        "fakeIpRange6": "Fake IP Range (IPv6)",
         "fakeIpFilterMode": "Fake IP Filter Mode",
         "ipv6": {
           "label": "IPv6",
@@ -608,11 +606,6 @@
         "reactivateProfiles": "فعال‌سازی مجدد پروفایل‌ها"
       }
     },
-    "password": {
-      "prompts": {
-        "enterRoot": "لطفاً رمز ریشه خود را وارد کنید"
-      }
-    },
     "networkInterface": {
       "title": "رابط شبکه",
       "fields": {
@@ -634,10 +627,6 @@
       "clashService": {
         "installSuccess": "سرویس با موفقیت نصب شد",
         "uninstallSuccess": "سرویس با موفقیت حذف نصب شد"
-      },
-      "updater": {
-        "withClashProxySuccess": "با موفقیت با پروکسی کلش به‌روزرسانی شد",
-        "withClashProxyFailed": "به‌روزرسانی حتی با پروکسی کلش هم انجام نشد"
       }
     }
   },

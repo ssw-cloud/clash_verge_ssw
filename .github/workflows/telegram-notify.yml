@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Fetch UPDATE logs
         id: fetch_update_logs
@@ -34,7 +34,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v6
         with:
-          node-version: '24.15.0'
+          node-version: '24.18.0'
 
       - uses: pnpm/action-setup@v6
         name: Install pnpm
@@ -85,12 +85,6 @@ jobs:
 
           #### RPM包(Redhat系) 使用 dnf ./路径 安装
           - [64位](${{ env.DOWNLOAD_URL }}/Clash.Verge-${{ env.VERSION }}-1.x86_64.rpm) | [ARM64](${{ env.DOWNLOAD_URL }}/Clash.Verge-${{ env.VERSION }}-1.aarch64.rpm) | [ARMv7](${{ env.DOWNLOAD_URL }}/Clash.Verge-${{ env.VERSION }}-1.armhfp.rpm)
-
-          ### FAQ
-          - [常见问题](https://clash-verge-rev.github.io/faq/windows.html)
-
-          ### 稳定机场VPN推荐
-          - [狗狗加速](https://verge.dginv.click/#/register?code=oaxsAGo6)
 
           Created at ${{ env.BUILDTIME }}.
           EOF

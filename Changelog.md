@@ -1,4 +1,4 @@
-## v2.5.1
+## v2.5.3
 
 > [!IMPORTANT]
 > 继2.4.6以来继续优化修复问题，是 bug 问题最少的版本；建议所有用户立即升级。
@@ -38,5 +38,12 @@
 - 系统代理开关修改为乐观更新模式，提升用户体验
 - 备份设置功能异常
 - 修复 Windows 节点交互异常
+<details>
+<summary><strong> ✨ 新增功能 </strong></summary>
+
+</details>
+
+<details>
+<summary><strong> 🚀 优化改进 </strong></summary>
 
 </details>

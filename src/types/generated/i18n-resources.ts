@@ -379,7 +379,7 @@ export interface TranslationResources {
             importSuccess: string
             profileReactivated: string
             profileSwitched: string
-            switchInterrupted: string
+            switchBusy: string
           }
         }
         importForm: {
@@ -702,10 +702,6 @@ export interface TranslationResources {
             installSuccess: string
             uninstallSuccess: string
           }
-          updater: {
-            withClashProxyFailed: string
-            withClashProxySuccess: string
-          }
         }
       }
       modals: {
@@ -842,6 +838,7 @@ export interface TranslationResources {
             }
             fakeIpFilterMode: string
             fakeIpRange: string
+            fakeIpRange6: string
             fallback: {
               description: string
               label: string
@@ -980,11 +977,6 @@ export interface TranslationResources {
           }
           title: string
         }
-        password: {
-          prompts: {
-            enterRoot: string
-          }
-        }
         sysproxy: {
           actions: {
             editPac: string
@@ -1046,7 +1038,6 @@ export interface TranslationResources {
           }
           messages: {
             breakChangeError: string
-            portableError: string
           }
           title: string
         }
@@ -1063,9 +1054,7 @@ export interface TranslationResources {
       }
       page: {
         actions: {
-          github: string
           manual: string
-          telegram: string
         }
         title: string
       }
