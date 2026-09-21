@@ -8,7 +8,6 @@
     "dialog:default",
     "dialog:allow-ask",
     "dialog:allow-message",
-    "process:allow-restart",
     "deep-link:default",
     "autostart:allow-enable",
     "autostart:allow-disable",

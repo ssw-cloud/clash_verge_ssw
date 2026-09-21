@@ -1,11 +1,8 @@
 name: Release Build
 
 on:
-  # ! 为了避免重复发布版本，应当通过独特 git tag 触发。
-  # ! 不再使用 workflow_dispatch 触发。
-  # workflow_dispatch:
   push:
-    # -rc tag 时预览发布, 跳过 telegram 通知、跳过 winget 提交、跳过 latest.json 文件更新
+    # Release candidates are published as prereleases.
     tags:
       - 'v*.*.*'
 permissions: write-all
@@ -14,7 +11,6 @@ env:
   RUST_BACKTRACE: short
   HUSKY: 0
 concurrency:
-  # only allow per workflow per commit (and not pr) to run at a time
   group: '${{ github.workflow }} - ${{ github.head_ref || github.ref }}'
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
@@ -33,10 +29,9 @@ jobs:
           TAG_REF="${GITHUB_REF##*/}"
           echo "Checking if tag $TAG_REF is from main branch..."
 
-          TAG_COMMIT=$(git rev-list -n 1 $TAG_REF)
-          MAIN_COMMITS=$(git rev-list origin/main)
+          TAG_COMMIT=$(git rev-list -n 1 "$TAG_REF")
 
-          if echo "$MAIN_COMMITS" | grep -q "$TAG_COMMIT"; then
+          if git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
             echo "✅ Tag $TAG_REF is from main branch"
           else
             echo "❌ Tag $TAG_REF is not from main branch"
@@ -93,6 +88,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+
+      - name: Group changelog platforms
+        run: bash ./scripts-workflow/group_platforms.sh
 
       - name: Fetch UPDATE logs
         id: fetch_update_logs
@@ -186,7 +184,7 @@ jobs:
       - name: Install Rust Stable
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: '1.96.1'
+          toolchain: '1.98.1'
           targets: ${{ matrix.target }}
 
       - name: Add Rust Target
@@ -210,9 +208,9 @@ jobs:
           sudo apt-get install -y libxslt1.1 libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 
       - name: Install Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: '24.18.0'
+          node-version: '24.21.0'
 
       - uses: pnpm/action-setup@v6
         name: Install pnpm
@@ -226,25 +224,23 @@ jobs:
 
       - name: Add Rust Target
         run: |
-          # Ensure cross target is installed for the pinned toolchain; fallback without explicit toolchain if needed
-          rustup target add ${{ matrix.target }} --toolchain 1.95.0 || rustup target add ${{ matrix.target }}
+          rustup target add ${{ matrix.target }} --toolchain 1.98.1 || rustup target add ${{ matrix.target }}
           rustup target list --installed
           echo "Rust target ${{ matrix.target }} installed."
 
       - name: Tauri build
-        # 上游 5.24 修改了 latest.json 的生成逻辑，且依赖 tauri-plugin-update 2.10.0 暂未发布，故锁定在 0.5.23 版本
         uses: tauri-apps/tauri-action@v1.0.0
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         with:
           releaseId: ${{ needs.prepare_release.outputs.release_id }}
           tagName: ${{ github.ref_name }}
           releaseBody: 'Draft release, will be updated later.'
           tauriScript: pnpm
           args: --target ${{ matrix.target }}
+          uploadUpdaterJson: false
+          uploadUpdaterSignatures: false
 
       - name: Attest Windows bundles
         if: matrix.os == 'windows-latest'
@@ -265,7 +261,7 @@ jobs:
           subject-path: target/${{ matrix.target }}/release/bundle/deb/*.deb
 
   submit-to-winget:
-    if: ${{ !contains(github.ref_name, '-rc') }}
+    if: ${{ github.repository == 'clash-verge-rev/clash-verge-rev' && !contains(github.ref_name, '-rc') }}
     name: Submit to Winget
     runs-on: ubuntu-latest
     needs: [update_tag]
@@ -289,7 +285,7 @@ jobs:
           token: ${{ secrets.WINGET_TOKEN  }}
 
   notify-telegram:
-    if: ${{ !contains(github.ref_name, '-rc') }}
+    if: ${{ github.repository == 'clash-verge-rev/clash-verge-rev' && !contains(github.ref_name, '-rc') }}
     name: Notify Telegram
     runs-on: ubuntu-latest
     needs:
@@ -301,15 +297,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Group changelog platforms
+        run: bash ./scripts-workflow/group_platforms.sh
+
       - name: Fetch UPDATE logs
         id: fetch_update_logs
         run: bash ./scripts/extract_update_logs.sh
         shell: bash
 
       - name: Install Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: '24.18.0'
+          node-version: '24.21.0'
 
       - uses: pnpm/action-setup@v6
         name: Install pnpm

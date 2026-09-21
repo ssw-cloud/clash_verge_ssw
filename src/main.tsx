@@ -20,10 +20,7 @@ import {
   getPreloadConfig,
 } from './services/preload'
 import { swrConfig } from './services/query-client'
-import {
-  LoadingCacheProvider,
-  ThemeModeProvider,
-} from './services/states'
+import { LoadingCacheProvider, ThemeModeProvider } from './services/states'
 import { disableWebViewShortcuts } from './utils/disable-webview-shortcuts'
 
 if (!window.ResizeObserver) {
