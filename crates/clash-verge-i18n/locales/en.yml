@@ -29,9 +29,6 @@ notifications:
   appQuit:
     title: About to Exit
     body: Clash Verge is about to exit.
-  appHidden:
-    title: Application Hidden
-    body: Clash Verge is running in the background.
 service:
   adminInstallPrompt: Installing the Clash Verge service requires administrator privileges.
   adminUninstallPrompt: Uninstalling the Clash Verge service requires administrator privileges.

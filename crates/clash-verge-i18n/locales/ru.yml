@@ -29,9 +29,6 @@ notifications:
   appQuit:
     title: Скорый выход
     body: Clash Verge скоро завершит работу.
-  appHidden:
-    title: Приложение скрыто
-    body: Clash Verge работает в фоновом режиме.
 service:
   adminInstallPrompt: Для установки службы Clash Verge требуются права администратора.
   adminUninstallPrompt: Для удаления службы Clash Verge требуются права администратора.

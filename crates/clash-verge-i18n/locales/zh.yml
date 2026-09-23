@@ -29,9 +29,6 @@ notifications:
   appQuit:
     title: 即将退出
     body: Clash Verge 即将退出。
-  appHidden:
-    title: 应用已隐藏
-    body: Clash Verge 正在后台运行。
 service:
   adminInstallPrompt: 安装 Clash Verge 服务需要管理员权限
   adminUninstallPrompt: 卸载 Clash Verge 服务需要管理员权限
