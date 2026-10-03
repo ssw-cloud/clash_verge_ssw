@@ -653,6 +653,7 @@
         "modeUpdateFailed": "Proxy-Modus konnte nicht geändert werden",
         "restartFailed": "Kern konnte nicht neu gestartet werden",
         "startFailed": "Kern konnte nicht gestartet werden",
+        "serviceCoreStopped": "Der vom Dienst ausgeführte Kern wurde unerwartet beendet",
         "stopFailed": "Kern konnte nicht gestoppt werden"
       },
       "clashService": {
@@ -660,7 +661,8 @@
         "uninstallFailed": "Dienst konnte nicht deinstalliert werden",
         "reinstallFailed": "Dienst konnte nicht neu installiert werden",
         "repairFailed": "Dienst konnte nicht repariert werden",
-        "sidecarFailed": "Fortsetzung mit Sidecar fehlgeschlagen"
+        "sidecarFailed": "Fortsetzung mit Sidecar fehlgeschlagen",
+        "coreAlreadyRunning": "Der Sidecar-Modus konnte nicht gestartet werden: Ein anderer Kern läuft noch (PID {{pid}}). Beenden Sie andere Clash-Verge-Instanzen oder die App, die diesen Kern verwendet, und versuchen Sie es erneut."
       },
       "sysproxy": {
         "privilegeRequired": "Systemproxy kann nicht gesetzt werden: macOS hat die Änderung mangels Berechtigung abgelehnt. Installieren Sie den Clash-Verge-Dienst; als Administrator können Sie in den erweiterten Optionen unter Systemeinstellungen → Datenschutz & Sicherheit auch die Passwortpflicht für systemweite Einstellungen deaktivieren.",
@@ -681,7 +683,12 @@
         "geoDataUpdated": "Geo-Daten wurden aktualisiert"
       },
       "clashService": {
+        "appDataNotOwned": "Der Dienst hat den Start des Kerns abgelehnt, weil der App-Datenordner auf dem Datenträger nicht Ihrem Konto gehört (häufig, wenn der Benutzerordner auf einem externen Laufwerk liegt). Eine Reparatur des Dienstes behebt das nicht. Führen Sie diesen Befehl im Terminal aus und starten Sie die App danach neu:",
         "installSuccess": "Service erfolgreich installiert",
+        "permissionFallback": "{{reason}} Zum Sidecar-Modus gewechselt; TUN benötigt Administratorrechte. Reparieren Sie den Dienst gemäß Anleitung und installieren Sie ihn neu, oder starten Sie die App als Administrator ohne Dienstinstallation.",
+        "permissionWritableReason": "Normale Konten können Kerndateien oder übergeordnete Ordner ändern. Daher verweigert der Dienst die Ausführung mit erhöhten Rechten.",
+        "permissionRejectedReason": "Der Dienst konnte nicht bestätigen, dass die Kerndateien und Ordner für die Ausführung mit erhöhten Rechten sicher sind.",
+        "permissionRepairGuide": "Reparaturanleitung öffnen",
         "sidecarFallback": "Der Dienst konnte den Kern nicht starten. Die Anwendung läuft im Sidecar-Modus weiter; der Dienst bleibt nicht verfügbar.",
         "uninstallSuccess": "Service erfolgreich deinstalliert"
       }
