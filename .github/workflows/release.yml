@@ -184,18 +184,15 @@ jobs:
       - name: Install Rust Stable
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: '1.99.0'
+          toolchain: '1.99.1'
           targets: ${{ matrix.target }}
-
-      - name: Add Rust Target
-        run: rustup target add ${{ matrix.target }}
 
       - name: Rust Cache
         uses: Swatinem/rust-cache@v2
         with:
           save-if: ${{ github.ref == 'refs/heads/dev' }}
           prefix-key: 'v1-rust'
-          key: 'rust-shared-stable-${{ matrix.os }}-${{ matrix.target }}'
+          shared-key: 'rust-shared-stable-${{ matrix.os }}-${{ matrix.target }}'
           workspaces: |
             . -> target
           cache-all-crates: true
@@ -207,26 +204,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libxslt1.1 libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
 
-      - name: Install Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24.21.0'
-
       - uses: pnpm/action-setup@v6
         name: Install pnpm
         with:
           run_install: false
 
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '26.13.0'
+          cache: 'pnpm'
+
       - name: Pnpm install and check
         run: |
           pnpm i
           pnpm run prebuild ${{ matrix.target }}
-
-      - name: Add Rust Target
-        run: |
-          rustup target add ${{ matrix.target }} --toolchain 1.99.0 || rustup target add ${{ matrix.target }}
-          rustup target list --installed
-          echo "Rust target ${{ matrix.target }} installed."
 
       - name: Tauri build
         uses: tauri-apps/tauri-action@v1.0.0
@@ -305,15 +297,16 @@ jobs:
         run: bash ./scripts/extract_update_logs.sh
         shell: bash
 
-      - name: Install Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24.21.0'
-
       - uses: pnpm/action-setup@v6
         name: Install pnpm
         with:
           run_install: false
+
+      - name: Install Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '26.13.0'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
