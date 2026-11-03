@@ -61,16 +61,11 @@ export const SystemInfoCard = () => {
   }, [verge, patchVerge])
 
   const handleRunningModeClick = useCallback(async () => {
-    if (isSidecarMode || (isAdminMode && isSidecarMode)) {
+    if (isSidecarMode) {
       await installServiceAndRestartCore()
       await mutateSystemState()
     }
-  }, [
-    isSidecarMode,
-    isAdminMode,
-    installServiceAndRestartCore,
-    mutateSystemState,
-  ])
+  }, [isSidecarMode, installServiceAndRestartCore, mutateSystemState])
 
   const autoLaunchEnabled = useMemo(
     () => verge?.enable_auto_launch || false,
@@ -79,18 +74,16 @@ export const SystemInfoCard = () => {
 
   const runningModeStyle = useMemo(
     () => ({
-      cursor:
-        isSidecarMode || (isAdminMode && isSidecarMode) ? 'pointer' : 'default',
-      textDecoration:
-        isSidecarMode || (isAdminMode && isSidecarMode) ? 'underline' : 'none',
+      cursor: isSidecarMode ? 'pointer' : 'default',
+      textDecoration: isSidecarMode ? 'underline' : 'none',
       display: 'flex',
       alignItems: 'center',
       gap: 0.5,
       '&:hover': {
-        opacity: isSidecarMode || (isAdminMode && isSidecarMode) ? 0.7 : 1,
+        opacity: isSidecarMode ? 0.7 : 1,
       },
     }),
-    [isSidecarMode, isAdminMode],
+    [isSidecarMode],
   )
 
   const getModeIcon = () => {

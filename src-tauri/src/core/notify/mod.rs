@@ -7,7 +7,7 @@ pub mod notification;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, specta::Type)]
 pub enum NoticeStatus {
     #[serde(rename = "info")]
-    #[allow(dead_code, reason = "Retained in the notice contract while application updates are disabled.")]
+    #[allow(dead_code, reason = "App updates are disabled; retain the notice contract.")]
     Info,
     #[serde(rename = "import_sub_url::ok")]
     ImportSubUrlOk,
